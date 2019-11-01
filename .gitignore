@@ -4,14 +4,7 @@ target/
 !**/src/main/**
 !**/src/test/**
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+
 
 ### IntelliJ IDEA ###
 .idea
@@ -19,17 +12,4 @@ target/
 *.iml
 *.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
 
-### VS Code ###
-.vscode/
-src/main/java/com/sun/vuebackground/config/
-src/main/java/com/sun/vuebackground/controller/
-src/main/java/com/sun/vuebackground/dao/
-src/main/java/com/sun/vuebackground/entity/
