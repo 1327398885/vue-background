@@ -4,6 +4,7 @@ import com.sun.vuebackground.dao.TB_user_dao;
 import com.sun.vuebackground.entity.DataResult;
 import com.sun.vuebackground.entity.TB_user;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -26,8 +27,10 @@ public class TB_user_controller {
             dataResult.setMsg("缺少参数！");
             return dataResult;
         }
-        TB_user user = tb_user_dao.findByUsernameAndPassword(tb_user.getUsername(), tb_user.getPassword());
-        if (user == null) {
+        TB_user user = tb_user_dao.findByUsername(tb_user.getUsername());
+        //MD5是不可以逆的，将传来的password进行MD5加密，与数据中的用户信息比对
+        String md5Password = DigestUtils.md5DigestAsHex(tb_user.getPassword().getBytes());
+        if (!user.getPassword().equals(md5Password)) {
             dataResult.setCode(1);
             dataResult.setMsg("账户或密码错误！");
         } else if (user.isStatus()) {
@@ -63,6 +66,9 @@ public class TB_user_controller {
             dataResult.setCode(1);
             return dataResult;
         }
+        //MD5加密
+        String md5Password = DigestUtils.md5DigestAsHex(tb_user.getPassword().getBytes());
+        tb_user.setPassword(md5Password);
         tb_user.setRole(3);
         tb_user.setStatus(false);
         if (tb_user_dao.save(tb_user) != null) {
