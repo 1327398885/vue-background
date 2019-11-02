@@ -27,10 +27,11 @@ public class TB_user_controller {
             dataResult.setMsg("缺少参数！");
             return dataResult;
         }
-        TB_user user = tb_user_dao.findByUsername(tb_user.getUsername());
-        //MD5是不可以逆的，将传来的password进行MD5加密，与数据中的用户信息比对
         String md5Password = DigestUtils.md5DigestAsHex(tb_user.getPassword().getBytes());
-        if (!user.getPassword().equals(md5Password)) {
+
+        TB_user user = tb_user_dao.findByUsernameAndPassword(tb_user.getUsername(), md5Password);
+        //MD5是不可以逆的，将传来的password进行MD5加密，与数据中的用户信息比对
+        if (user == null) {
             dataResult.setCode(1);
             dataResult.setMsg("账户或密码错误！");
         } else if (user.isStatus()) {
